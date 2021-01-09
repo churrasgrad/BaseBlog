@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
-import IUsersRepository from "../repositories";
-import ICreateUserDTO from "../dtos";
-import User from "../infra/typeorm/entities";
-import crypto from 'crypto'
+import IUsersRepository from "../repositories/IUsersRepository";
+import ICreateUserDTO from "../dtos/ICreateUserDTO";
+import User from "../infra/typeorm/entities/User";
+import crypto from "crypto";
 
 @injectable()
 export default class CreateUserService {
@@ -20,7 +20,7 @@ export default class CreateUserService {
       throw new Error("The database already has an user with this email");
     }
 
-    data.password = crypto.createHmac('sha256', data.password).digest('hex');
+    data.password = crypto.createHmac("sha256", data.password).digest("hex");
 
     const user = await this.users_repository.create(data);
 
