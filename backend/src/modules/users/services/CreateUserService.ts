@@ -16,13 +16,15 @@ export default class CreateUserService {
       data.email
     );
 
-    if (!verify_email) {
+    if (verify_email) {
       throw new Error("The database already has an user with this email");
     }
 
     data.password = crypto.createHmac("sha256", data.password).digest("hex");
 
     const user = await this.users_repository.create(data);
+
+    console.log("CreateUserService: I'm here");
 
     return user;
   }

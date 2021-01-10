@@ -15,6 +15,8 @@ export default class UsersRepository implements IUsersRepository {
 
     await this.ormRepository.save(user);
 
+    console.log("UsersRepository: I'm here");
+
     return user;
   }
 
@@ -25,7 +27,13 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   public async find_by_user_email(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne(email);
+    const user = await this.ormRepository.findOne({
+      where: {
+        email,
+      },
+    });
+
+    delete user.password;
 
     return user;
   }
